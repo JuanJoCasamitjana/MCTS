@@ -1,5 +1,6 @@
 package game.game;
 
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
@@ -52,7 +53,7 @@ public class Game {
     }
 
     public List<Move> getMoves(){
-        List<Move> moves = board.getPlayerAvailableMoves().get(turn == 1 ? PlayerColor.BLACK : PlayerColor.WHITE);
+        List<Move> moves = new ArrayList<Move>(board.getPlayerAvailableMoves().get(turn == 1 ? PlayerColor.BLACK : PlayerColor.WHITE));
         Collections.shuffle(moves);
         return moves;
     }
@@ -64,24 +65,62 @@ public class Game {
     public boolean whiteWins(){
 
         boolean isKingAtCorners = board.getBoardDisplay()[0][0].equals(Piece.WHITE_KING) ||
-                            board.getBoardDisplay()[0][board.getNumOfColumns()].equals(Piece.WHITE_KING) ||
-                            board.getBoardDisplay()[board.getNumOfRows()][0].equals(Piece.WHITE_KING) ||
-                            board.getBoardDisplay()[board.getNumOfRows()][board.getNumOfColumns()].equals(Piece.WHITE_KING);
+                            board.getBoardDisplay()[0][board.getNumOfColumns()-1].equals(Piece.WHITE_KING) ||
+                            board.getBoardDisplay()[board.getNumOfRows()-1][0].equals(Piece.WHITE_KING) ||
+                            board.getBoardDisplay()[board.getNumOfRows()-1][board.getNumOfColumns()-1].equals(Piece.WHITE_KING);
 
         return (this.getMoves().size() == 0 && turn == 1) || isKingAtCorners;
     }
 
 
+    public Game applyMovement(Move move) throws Exception{
 
-public static void main(String[] args) {
+        if(!this.getMoves().contains(move)){
+            throw new Exception("Movimiento ilegal.");
+        }
+
+        Board nextBoard = this.getBoard().clone(); 
+
+        Integer row = move.getInitialCoordinate().getRowIndex();
+		Integer colum = move.getInitialCoordinate().getColumIndex();
+		Integer nextRow = move.getFinalCoordinate().getRowIndex();
+		Integer nextColum = move.getFinalCoordinate().getColumIndex();
+
+        Piece pieceMoving = this.getBoard().getBoardDisplay()[row][colum];
+        
+        nextBoard.getBoardDisplay()[row][colum] = Piece.EMPTY;
+
+        nextBoard.getBoardDisplay()[nextRow][nextColum] = pieceMoving;
+
+        Board nextBoardChecked = Board.checkPiecesTaken(nextBoard);
+
+        
+        return Game.of(nextBoardChecked, this.getTurn() == 1 ? 2 : 1);
+    }
+
+
+
+public static void main(String[] args) throws Exception {
 
 
     Game game = Game.getInitialState(1);
 
-    List<Move> moves = game.getMoves();
-    for(Move move : moves){
+    while(true){
+        Move move = game.getMoves().get(0);
         System.out.println(move);
+        game = game.applyMovement(move);
+        game.getBoard().imprimeTablero();
+        if(game.whiteWins()){
+            System.out.println("Ganan las blancas");
+            break;
+        }else if(game.blackWins()){
+            System.out.println("Ganan las negras");
+            break;
+        }
+            
     }
+
+
 }
     
 }

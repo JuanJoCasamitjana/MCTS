@@ -27,4 +27,37 @@ public class Move {
                                         finalCoordinate.getRowIndex(), finalCoordinate.getColumIndex());
     }
 
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj)
+            return true;
+        if (obj == null)
+            return false;
+        if (getClass() != obj.getClass())
+            return false;
+        Move other = (Move) obj;
+        if (finalCoordinate == null) {
+            if (other.finalCoordinate != null)
+                return false;
+        } else if (!finalCoordinate.equals(other.finalCoordinate))
+            return false;
+        if (initialCoordinate == null) {
+            if (other.initialCoordinate != null)
+                return false;
+        } else if (!initialCoordinate.equals(other.initialCoordinate))
+            return false;
+        return true;
+    }
+
+    @Override
+    public int hashCode() {
+        final int prime = 31;
+        int result = 1;
+        result = prime * result + ((finalCoordinate == null) ? 0 : finalCoordinate.hashCode());
+        result = prime * result + ((initialCoordinate == null) ? 0 : initialCoordinate.hashCode());
+        return result;
+    }
+
+
+    
 }
