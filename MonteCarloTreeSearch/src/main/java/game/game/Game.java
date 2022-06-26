@@ -4,9 +4,11 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+import game.IA.UCT;
 import game.board.Board;
 import game.board.Piece;
 import game.board.PlayerColor;
+import game.initialise.BoardLoader;
 import lombok.Data;
 
 
@@ -17,16 +19,20 @@ public class Game {
     //Attributes
     private Board board;
     private Integer turn;
+    private Integer movesPlayed;
+    private Integer movesLimit;
 
     //Constructors
 
-    public Game(Board board, Integer turn){
+    public Game(Board board, Integer turn, Integer movesPlayed, Integer movesLimit){
         this.board = board;
         this.turn = turn;
+        this.movesPlayed = movesPlayed;
+        this.movesLimit = movesLimit;
     }
 
-    public static Game of(Board board, Integer turn){
-        return new Game(board, turn);
+    public static Game of(Board board, Integer turn, Integer movesPlayed, Integer movesLimit){
+        return new Game(board, turn, movesPlayed, movesLimit);
     }
 
 
@@ -46,9 +52,9 @@ public class Game {
         6. Alea Evangelii
 
 	*/
-    public static Game getInitialState(Integer variant){
+    public static Game getInitialState(Integer variant, Integer movesLimit){
 
-        return Game.of(Board.getInitialStateOfVariant(variant), 1);
+        return Game.of(BoardLoader.loadBoard(1), 1, 0, movesLimit);
 
     }
 
@@ -70,6 +76,10 @@ public class Game {
                             board.getBoardDisplay()[board.getNumOfRows()-1][board.getNumOfColumns()-1].equals(Piece.WHITE_KING);
 
         return (this.getMoves().size() == 0 && turn == 1) || isKingAtCorners;
+    }
+
+    public boolean isFinalState(){
+        return blackWins() || whiteWins() || this.getMovesPlayed().equals(this.getMovesLimit());
     }
 
 
@@ -95,28 +105,40 @@ public class Game {
         Board nextBoardChecked = Board.checkPiecesTaken(nextBoard);
 
         
-        return Game.of(nextBoardChecked, this.getTurn() == 1 ? 2 : 1);
+        return Game.of(nextBoardChecked, this.getTurn() == 1 ? 2 : 1, this.getMovesPlayed()+1, this.getMovesLimit());
+    }
+
+    public void printState(){
+        this.getBoard().imprimeTablero();
+        System.out.println("Movimientos jugados: " + this.getMovesPlayed());
+        if(isFinalState()){
+            if(whiteWins())
+                System.out.println("¡Ganan las blancas!");
+            else if(blackWins())
+                System.out.println("¡Ganan las negras!");
+            else
+                System.out.println("Tablas.");
+        }else{
+            System.out.println("Turno de las " + ((turn==1) ? "negras" : "blancas"));
+        }
+        System.out.println("---------------------------------------------------------------------------");
     }
 
 
 
 public static void main(String[] args) throws Exception {
 
-
-    Game game = Game.getInitialState(1);
+    Game game = Game.getInitialState(1, Integer.MAX_VALUE);
 
     while(true){
-        Move move = game.getMoves().get(0);
+        Move move = UCT.searchForSolution(game, 20000);
         System.out.println(move);
         game = game.applyMovement(move);
-        game.getBoard().imprimeTablero();
-        if(game.whiteWins()){
-            System.out.println("Ganan las blancas");
-            break;
-        }else if(game.blackWins()){
-            System.out.println("Ganan las negras");
+        game.printState();
+        if(game.isFinalState()){
             break;
         }
+		
             
     }
 
