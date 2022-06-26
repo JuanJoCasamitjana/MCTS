@@ -18,4 +18,9 @@ public class Constants {
 			+ "        4. Brandubh\r\n"
 			+ "        5. Tawlbwrdd\r\n"
 			+ "        6. Alea Evangelii";
+	public static final String MESSAGE_INPUT_SELECT_PLAYER = "Please select what do you want to play as:\n" 
+			+"1. White\n"
+			+"2. Black";
+	public static final String MESSAGE_INPUT_SELECT_MOVE = "Please select a move from the pool";
+	public static final String SYS_ERROR = "System error";
 }
