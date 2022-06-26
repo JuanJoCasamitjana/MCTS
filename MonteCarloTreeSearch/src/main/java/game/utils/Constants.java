@@ -8,5 +8,14 @@ public class Constants {
 	public static final String TAWLBWRDD = "initialBoards/TAWLBWRDD.txt";
 	public static final String ALEA_EVANGELII = "initialBoards/ALEA_EVANGELII.txt";
 	
-	public static final String ERROR_BOARD_OUT_OF_BOUNDS = "You must index the initial boord with an integer between 1 and 6";
+	public static final String ERROR_BOARD_OUT_OF_BOUNDS = "You must index the initial board with an integer between 1 and 6";
+	
+	public static final String MESSAGE_INPUT_MAX_MOVES = "Select the maximum number of moves,\nmust be greater than 0 or -1 if there would be no limit";
+	public static final String ERROR_INPUT_MESSAGE = "Input unrecognized or incorrect";
+	public static final String MESSAGE_INPUT_BOARD_INDEXES = "Use an integer between 1 and 6:\n        1. Hnefatafl\r\n"
+			+ "        2. Tablut\r\n"
+			+ "        3. Ard Ri\r\n"
+			+ "        4. Brandubh\r\n"
+			+ "        5. Tawlbwrdd\r\n"
+			+ "        6. Alea Evangelii";
 }
