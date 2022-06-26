@@ -4,7 +4,7 @@ import game.board.Coordinate;
 import lombok.Data;
 
 @Data
-public class Move {
+public class Move implements Comparable<Move>{
     private Coordinate initialCoordinate;
     private Coordinate finalCoordinate;
 
@@ -57,6 +57,35 @@ public class Move {
         result = prime * result + ((initialCoordinate == null) ? 0 : initialCoordinate.hashCode());
         return result;
     }
+
+    public int compareTo(Move other) {
+        if(this.initialCoordinate.getRowIndex() > other.getInitialCoordinate().getRowIndex()){
+            return 1;
+        }else if(this.initialCoordinate.getRowIndex() < other.getInitialCoordinate().getRowIndex()){
+            return -1;
+        }else{
+            if(this.initialCoordinate.getColumIndex() > other.getInitialCoordinate().getColumIndex()){
+                return 1;
+            }else if(this.initialCoordinate.getColumIndex() < other.getInitialCoordinate().getColumIndex()){
+                return -1;
+            }else{
+                if(this.finalCoordinate.getRowIndex() > other.getFinalCoordinate().getRowIndex()){
+                    return 1;
+                }else if(this.finalCoordinate.getRowIndex() < other.getFinalCoordinate().getRowIndex()){
+                    return -1;
+                }else{
+                    if(this.finalCoordinate.getColumIndex() > other.getFinalCoordinate().getColumIndex()){
+                        return 1;
+                    }else if(this.finalCoordinate.getColumIndex() < other.getFinalCoordinate().getColumIndex()){
+                        return -1;
+                    }else{
+                        return 0;
+                    }
+                }
+            }
+        }
+    }
+
 
 
     

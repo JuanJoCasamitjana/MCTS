@@ -79,7 +79,7 @@ public class Game {
     }
 
     public boolean isFinalState(){
-        return blackWins() || whiteWins() || this.getMovesPlayed().equals(this.getMovesLimit());
+        return blackWins() || whiteWins() || (this.getMovesPlayed() >= this.getMovesLimit() && this.getMovesLimit() > 0);
     }
 
 
@@ -131,7 +131,7 @@ public static void main(String[] args) throws Exception {
     Game game = Game.getInitialState(1, Integer.MAX_VALUE);
 
     while(true){
-        Move move = UCT.searchForSolution(game, 20000);
+        Move move = UCT.buscaSolucion(game, 2);
         System.out.println(move);
         game = game.applyMovement(move);
         game.printState();
