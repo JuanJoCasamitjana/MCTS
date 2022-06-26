@@ -82,31 +82,6 @@ public class Board {
 				c.equals(new Coordinate((getNumOfRows()-1)/2, ((getNumOfColumns()-1)/2)+1));
 	}
 
-
-
-
-
-	 /**
-	* 
-	* @param variant The variant of the game is going to be played
-	* @return the initial state of the board with said variant
-	*/
-	public static Board getInitialStateOfVariant(Integer variant){
-		Integer[][] integerDisplay =  
-		{{0,0,1,1,1,0,0}, 
-		{0,0,0,1,0,0,0}, 
-		{1,0,2,2,2,0,1}, 
-		{1,1,2,3,2,1,1}, 
-		{1,0,2,2,2,0,1},
-		{0,0,0,1,0,0,0},
-		{0,0,1,1,1,0,0}};
-
-		return Board.of(integerDisplay);
-	}
-
-
-
-
 	/**
 	* 
 	* @return the coordinates in control of each player
@@ -396,7 +371,6 @@ public class Board {
 		}
 
 		System.out.println(res);
-		System.out.println("---------------------------------------------------------------------------");
 	}
 
 
