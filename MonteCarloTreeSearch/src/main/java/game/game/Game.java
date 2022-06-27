@@ -9,6 +9,7 @@ import game.IA.UCT2;
 import game.board.Board;
 import game.board.Piece;
 import game.board.PlayerColor;
+import game.gameManager.GameManager;
 import game.initialise.BoardLoader;
 import lombok.Data;
 import lombok.Getter;
@@ -137,22 +138,12 @@ public class Game {
 
 
 public static void main(String[] args) throws Exception {
-
-    Game game = Game.getInitialState(1, Integer.MAX_VALUE);
-
-    while(true){
-        Move move = UCT2.buscaSolucion(game, 2);
-        System.out.println(move);
-        game = game.applyMovement(move);
-        game.printState();
-        if(game.isFinalState()){
-            break;
-        }
-		
+    GameManager manager = GameManager.initialise();
+    manager.play();
             
     }
 
 
 }
     
-}
+
