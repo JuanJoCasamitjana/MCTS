@@ -12,6 +12,10 @@ class Board:
     def __init__(self, boardDisplay):
         self.boardDisplay = boardDisplay
 
+    '''
+    Devuelve un tablero a patir de una lista de listas donde 0 es un espacio vacío, 
+    1 es un peón negro, 2 es un peón blanco y 3 es el rey
+    '''
     def integer_display_to_board(integerDisplay):
         boardDisplay = []
         for i in range(0, len(integerDisplay)):
@@ -45,15 +49,24 @@ class Board:
         return Board(newBoardDisplay)
 
 
+    '''
+    Devuelve el número de filas del tablero
+    '''
     def get_num_of_rows(self):
         return len(self.boardDisplay)
 
+    '''
+    Devuelve el número de columnas del tablero
+    '''
     def get_num_of_columns(self):
         return len(self.boardDisplay[0])
 
+    '''Devuelve las coordenadas del trono del tablero'''
     def get_throne(self):
         return Coordinate((self.get_num_of_rows()-1)/2, (self.get_num_of_rows()-1)/2)
 
+    '''Devuelve True si la Coordenada c es una de las casillas que rodean por los dos
+    lados al trono'''
     def is_surroundings_of_throne(self, c):
 
         isMiddleTop = c.rowIndex == ((self.get_num_of_rows()-1)/2)-1 and c.columnIndex == (self.get_num_of_columns()-1)/2
@@ -62,13 +75,21 @@ class Board:
         isMiddleRight = c.rowIndex == ((self.get_num_of_rows()-1)/2) and c.columnIndex == ((self.get_num_of_columns()-1)/2)+1
 
         return isMiddleTop or isMiddleBottom or isMiddleRight or isMiddleLeft
-
+    '''
+    Devuelve si una pieza es negra
+    '''
     def is_black(piece):
         return piece == Piece.BLACK_PAWN
 
+    '''
+    Devuelve si una pieza es blanca
+    '''
     def is_white(piece):
         return piece == Piece.WHITE_PAWN or piece == Piece.WHITE_KING
     
+    '''
+    Devuelve los movimientos disponibles de una pieza en un tablero comprobando hacia la izquierda
+    '''
     def check_left_moves(piece, currentCoordinate, columns, rows, boardDisplay, keySquares):
         res = []
         for j in range(int(currentCoordinate.columnIndex)-1, -1, -1):
@@ -88,7 +109,9 @@ class Board:
                     res.append(move)
         return res
     
-
+    '''
+    Devuelve los movimientos disponibles de una pieza en un tablero comprobando hacia la derecha
+    '''
     def check_right_moves(piece, currentCoordinate, columns, rows, boardDisplay, keySquares):
         res = []
         for j in range(int(currentCoordinate.columnIndex)+1, columns):
@@ -108,6 +131,9 @@ class Board:
                     res.append(move)
         return res
 
+    '''
+    Devuelve los movimientos disponibles de una pieza en un tablero comprobando hacia arriba
+    '''
     def check_up_moves(piece, currentCoordinate, columns, rows, boardDisplay, keySquares):
         res = []
         for i in range(int(currentCoordinate.rowIndex)-1, -1, -1):
@@ -127,6 +153,9 @@ class Board:
                     res.append(move)
         return res
 
+    '''
+    Devuelve los movimientos disponibles de una pieza en un tablero comprobando hacia abajo
+    '''
     def check_down_moves(piece, currentCoordinate, columns, rows, boardDisplay, keySquares):
         res = []
         for i in range(int(currentCoordinate.rowIndex)+1, rows):
@@ -147,7 +176,9 @@ class Board:
         return res
 
     
-
+    '''
+    Devuelve un diccionario que contiene los movimientos disponibles de ambos jugadores en la posición del tablero
+    '''
     def get_player_available_moves(self):
         res = dict()
         res[PlayerColor.BLACK] = []
@@ -176,6 +207,9 @@ class Board:
                         res[PlayerColor.WHITE] = moves
         return res
 
+    '''
+    Devuelve los movimientos disponibles de una pieza concreta en un tablero
+    '''
     def get_available_moves_of_piece(currentCoordinate, boardDisplay):
         res = []
         rows = len(boardDisplay)
@@ -194,9 +228,15 @@ class Board:
 
         return res
 
+    '''
+    Devuelve la pieza en una coordenada del tablero
+    '''
     def get_piece_at_coordinate(self, c):
         return self.boardDisplay[c.rowIndex][c.columnIndex]
 
+    '''
+    Devuelve True si y solo si el rey está vivo en el tablero
+    '''
     def is_king_alive(self):
         res = False
         for row in self.boardDisplay:
@@ -205,6 +245,9 @@ class Board:
                     return True
         return res
 
+    '''
+    Imprime el estado actual del tablero
+    '''
     def print_board(self):
         res = ""
         res += "       "
@@ -226,6 +269,10 @@ class Board:
             res += "\n\n"
         print(res)
 
+    '''
+    Devuelve una copia del tablero pasado por parámetro tras las comprobaciones de captura, eliminando las piezas
+    eliminadas en dicha posición
+    '''
     def check_pieces_taken(nextBoard):
         nextBoardChecked = nextBoard.copy()
 

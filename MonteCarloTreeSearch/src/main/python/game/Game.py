@@ -16,19 +16,9 @@ class Game:
     def copy(self):
         return Game(self.board.copy(), self.turn, self.movesPlayed, self.moveLimit)
 
-
-    def get_initial_state(variant, moveLimit):
-        integerDisplay = [[0,0,1,1,1,0,0],
-                        [0,0,0,1,0,0,0],
-                        [1,0,2,2,2,0,1],
-                        [1,1,2,3,2,1,1],
-                        [1,0,2,2,2,0,1],
-                        [0,0,0,1,0,0,0],
-                        [0,0,1,1,1,0,0]]
-        board = Board.integer_display_to_board(integerDisplay)
-        game = Game(board, 1, 0, moveLimit)
-        return game
-
+    '''
+    Devulve los movimientos disponibles en un estado de juego
+    '''
     def get_moves(self):
         player = None
         if self.turn == 1:
@@ -39,15 +29,27 @@ class Game:
         shuffle(moves)
         return moves
 
+    '''
+    Devuelve True si el negro gana en una posición
+    '''
     def black_wins(self):
         return (len(self.get_moves()) == 0 and self.turn == 2) or (not self.board.is_king_alive())
 
+    '''
+    Devuelve True si el blanco gana en una posición
+    '''
     def white_wins(self):
         return (len(self.get_moves()) == 0 and self.turn == 1) or self.board.boardDisplay[0][0] == Piece.WHITE_KING or self.board.boardDisplay[0][self.board.get_num_of_columns()-1] == Piece.WHITE_KING or self.board.boardDisplay[self.board.get_num_of_rows()-1][0] == Piece.WHITE_KING or self.board.boardDisplay[self.board.get_num_of_rows() -1][self.board.get_num_of_columns() -1] == Piece.WHITE_KING 
 
+    '''
+    Devuelve si el estado de juego es tal que ganen las blancas, ganen las negras o haya tablas
+    '''
     def is_final_state(self):
         return self.white_wins() or self.black_wins() or (self.movesPlayed >=self.moveLimit and self.moveLimit>0)
 
+    '''
+    Devuelve una copia del estado actual tras aplicar el movimiento que se pasa por parámetro
+    '''
     def apply_move(self, move):
         if move not in self.get_moves():
             raise Exception("Movimiento ilegal")
@@ -70,6 +72,9 @@ class Game:
 
         return Game(nextBoardChecked, nextTurn, self.movesPlayed + 1, nextMoveLimit)
 
+    '''
+    Imprime por pantalla el estado de la partida
+    '''
     def print_state(self):
         self.board.print_board()
         if self.is_final_state():

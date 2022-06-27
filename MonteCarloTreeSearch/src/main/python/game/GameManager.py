@@ -6,10 +6,13 @@ from Move import Move
 
 class GameManager:
 
+    '''
+    Inicia la secuencia de interfaz de usuario, llamándo a los submétodos correspondientes según las elecciones del usuario
+    y permitiéndole acceder a todas las funcionalidades del programa
+    '''
     def interfaz_usuario():
 
         print("¡Bienvenido a Hnefatafl!")
-        #opcion = GameManager.get
         variante = GameManager.get_variant()
         opcion = GameManager.get_option()   #0 = P vs IA.  1 = P vs P  2 = IA vs IA
         if opcion==0:

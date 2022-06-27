@@ -7,7 +7,9 @@ from UCTNode import UCTNode
 
 
 class UCT:
-
+    '''
+    Recibe un estado y un tiempo máximo de ejecución y devuelve el movimiento con mejor puntación calculado
+    '''
     def look_for_solution(s0, t):
         v0 = UCT.create_node(s0, None)
         timePassed = 0

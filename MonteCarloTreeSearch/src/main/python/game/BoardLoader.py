@@ -3,6 +3,9 @@ from Board import Board
 
 class BoardLoader:
 
+    '''
+    Devuelve la variante del tablero pasada por parámetro
+    '''
     def load_board(variant):
         if variant == 1:
             return BoardLoader.board_reader("initialBoards/HNEFATAFL.txt")
@@ -19,7 +22,9 @@ class BoardLoader:
         else:
             raise Exception("Variante no válida")
 
-
+    '''
+    Devuelve el tablero correspondiente al fichero de texto pasado por parámetro
+    '''
     def board_reader(file):
         lines = []
         with open(file) as f:
