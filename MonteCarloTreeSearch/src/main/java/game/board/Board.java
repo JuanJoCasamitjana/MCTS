@@ -427,7 +427,7 @@ public class Board {
 					nextBoardChecked.getBoardDisplay()[i][j] = Piece.EMPTY;
 				if(middlePiece.equals(Piece.WHITE_KING)){
 					Coordinate coordinate = new Coordinate(i, j);
-					if(!coordinate.equals(nextBoard.getThrone()) && nextBoard.isSurroundingsOfThrone(coordinate) && topPiece.equals(Piece.BLACK_PAWN) && bottomPiece.equals(Piece.BLACK_PAWN))
+					if(!coordinate.equals(nextBoard.getThrone()) && !nextBoard.isSurroundingsOfThrone(coordinate) && topPiece.equals(Piece.BLACK_PAWN) && bottomPiece.equals(Piece.BLACK_PAWN))
 						nextBoardChecked.getBoardDisplay()[i][j] = Piece.EMPTY;
 				}
             }
