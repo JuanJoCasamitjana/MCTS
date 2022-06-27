@@ -235,12 +235,15 @@ class Board:
                     nextBoardChecked.boardDisplay[i][j] = Piece.EMPTY
                 
                 if middlePiece == Piece.WHITE_KING:
-                    piecesAround = [nextBoard.get_piece_at_coordinate(Coordinate(i-1, j)), nextBoard.get_piece_at_coordinate(Coordinate(i+1, j)), nextBoard.get_piece_at_coordinate(Coordinate(i, j-1)), nextBoard.get_piece_at_coordinate(Coordinate(i, j+1))]
                     coordinate = Coordinate(i,j)
                     if coordinate == nextBoard.get_throne() and nextBoard.get_piece_at_coordinate(Coordinate(i-1, j)) == Piece.BLACK_PAWN and nextBoard.get_piece_at_coordinate(Coordinate(i+1, j)) == Piece.BLACK_PAWN and nextBoard.get_piece_at_coordinate(Coordinate(i, j-1)) == Piece.BLACK_PAWN and nextBoard.get_piece_at_coordinate(Coordinate(i, j+1)) == Piece.BLACK_PAWN:
                         nextBoardChecked.boardDisplay[i][j] = Piece.EMPTY
                     elif nextBoard.is_surroundings_of_throne(coordinate):
-                        piecesAround = [nextBoard.get_piece_at_coordinate(Coordinate(i-1, j)), nextBoard.get_piece_at_coordinate(Coordinate(i+1, j)), nextBoard.get_piece_at_coordinate(i, j-1), nextBoard.get_piece_at_coordinate(i, j+1)]
+                        piecesAround = []
+                        piecesAround.append(nextBoard.get_piece_at_coordinate(Coordinate(i-1, j)))
+                        piecesAround.append(nextBoard.get_piece_at_coordinate(Coordinate(i+1, j)))
+                        piecesAround.append(nextBoard.get_piece_at_coordinate(Coordinate(i, j-1)))
+                        piecesAround.append(nextBoard.get_piece_at_coordinate(Coordinate(i, j+1)))
                         blackPawnsCounter = 0
                         for pieceAround in piecesAround:
                             if pieceAround == Piece.BLACK_PAWN:
