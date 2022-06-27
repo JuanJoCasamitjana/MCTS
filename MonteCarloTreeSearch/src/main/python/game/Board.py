@@ -207,7 +207,12 @@ class Board:
 
     def print_board(self):
         res = ""
+        res += "       "
+        for i in range(0, len(self.boardDisplay)):
+            res+=str(i)+"  "
+        res+="\n\n\n\n"
         for i in range(0, self.get_num_of_rows()):
+            res += str(i)+"      "
             for j in range(0, self.get_num_of_columns()):
                 piece = self.boardDisplay[i][j]
                 if piece == Piece.EMPTY:

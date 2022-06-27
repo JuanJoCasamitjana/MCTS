@@ -74,7 +74,7 @@ class UCT:
             v.q = v.q + delta
             delta = -delta
             v = v.father
-
+'''
 whiteVictories = 0
 IAvictories = 0
 draws = 0
@@ -104,3 +104,5 @@ for i in range(0,15):
     else:
         draws += 1
 print("IA ", str(IAvictories), str(whiteVictories), " Negro. Tablas = ", str(draws))
+
+'''

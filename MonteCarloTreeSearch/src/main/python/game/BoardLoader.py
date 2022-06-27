@@ -28,5 +28,8 @@ class BoardLoader:
         integerDisplay = []
         for line in lines:
             row = line.split(",")
-            integerDisplay.append(row)
+            rowInt = []
+            for num in row:
+                rowInt.append(int(num))
+            integerDisplay.append(rowInt)
         return Board.integer_display_to_board(integerDisplay)
