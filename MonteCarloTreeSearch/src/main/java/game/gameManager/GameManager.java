@@ -122,7 +122,7 @@ public class GameManager {
 	}
 	public void AIHandler() {
 		try {
-			Move move = UCT.searchForSolution(this.gameState, 20000);
+			Move move = UCT.buscaSolucion(this.gameState, 20000);
 			System.out.println("The AI has selected the following move: "+ move);
 			this.gameState.applyMovement(move);
 		} catch (Exception e) {

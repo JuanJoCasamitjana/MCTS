@@ -1,6 +1,7 @@
 package game.board;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -60,7 +61,7 @@ public class Board {
 
 	@Override
 	public Board clone() {
-		return new Board(this.boardDisplay);
+		return new Board(Arrays.copyOf(this.boardDisplay, this.boardDisplay.length));
 	}
 
 	public Integer getNumOfRows(){

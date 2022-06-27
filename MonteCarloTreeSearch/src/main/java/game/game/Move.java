@@ -1,9 +1,11 @@
 package game.game;
 
 import game.board.Coordinate;
-import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 
-@Data
+@Getter
+@Setter
 public class Move implements Comparable<Move>{
     private Coordinate initialCoordinate;
     private Coordinate finalCoordinate;
@@ -47,15 +49,6 @@ public class Move implements Comparable<Move>{
         } else if (!initialCoordinate.equals(other.initialCoordinate))
             return false;
         return true;
-    }
-
-    @Override
-    public int hashCode() {
-        final int prime = 31;
-        int result = 1;
-        result = prime * result + ((finalCoordinate == null) ? 0 : finalCoordinate.hashCode());
-        result = prime * result + ((initialCoordinate == null) ? 0 : initialCoordinate.hashCode());
-        return result;
     }
 
     public int compareTo(Move other) {

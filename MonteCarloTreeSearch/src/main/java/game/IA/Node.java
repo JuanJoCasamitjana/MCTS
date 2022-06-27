@@ -6,9 +6,11 @@ import game.board.Board;
 import game.board.Piece;
 import game.game.Game;
 import game.game.Move;
-import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 
-@Data
+@Getter
+@Setter
 public class Node {
 
     private Game state;
@@ -37,51 +39,43 @@ public class Node {
     public Double getNodeId(){
         Double res = 0.0;
         Board board = this.getState().getBoard();
-        for(int i = 0; i<board.getNumOfRows();i++){
-            for(int j = 0; j<board.getNumOfColumns();j++){
+        for(int a = 0; a<board.getNumOfRows();a++){
+            for(int b = 0; b<board.getNumOfColumns();b++){
                 Integer number;
-                if(board.getBoardDisplay()[i][j].equals(Piece.EMPTY))
+                if(board.getBoardDisplay()[a][b].equals(Piece.EMPTY))
                     number = 0;
-                if(board.getBoardDisplay()[i][j].equals(Piece.BLACK_PAWN))
+                if(board.getBoardDisplay()[a][b].equals(Piece.BLACK_PAWN))
                     number = 1;
-                if(board.getBoardDisplay()[i][j].equals(Piece.WHITE_PAWN))
+                if(board.getBoardDisplay()[a][b].equals(Piece.WHITE_PAWN))
                     number = 2;
                 else
                     number = 3;
                 
-                res += i*j*number; 
+                res += (a+1)*(b+1) *number; 
             }
         }
-        return res;
+        return res*this.getMoves().size();
     }
 
-
-
-    @Override
-    public boolean equals(Object obj) {
-        if (this == obj)
-            return true;
-        if (obj == null)
-            return false;
-        if (getClass() != obj.getClass())
-            return false;
-        Node other = (Node) obj;
-        if (state == null) {
-            if (other.state != null)
-                return false;
-        } else if (!state.equals(other.state))
-            return false;
-        return true;
-    }
-
-
-
-    @Override
-    public int hashCode() {
-        final int prime = 31;
-        int result = 1;
-        result = prime * result + ((state == null) ? 0 : state.hashCode());
-        return result;
+    public static Double getGameId(Game g){
+        Double res = 0.0;
+        Board board = g.getBoard();
+        for(int a = 0; a<board.getNumOfRows();a++){
+            for(int b = 0; b<board.getNumOfColumns();b++){
+                Integer number;
+                if(board.getBoardDisplay()[a][b].equals(Piece.EMPTY))
+                    number = 0;
+                if(board.getBoardDisplay()[a][b].equals(Piece.BLACK_PAWN))
+                    number = 1;
+                if(board.getBoardDisplay()[a][b].equals(Piece.WHITE_PAWN))
+                    number = 2;
+                else
+                    number = 3;
+                
+                res += (a+1)*(b+1) *number; 
+            }
+        }
+        return res*g.getMoves().size();
     }
 
 }

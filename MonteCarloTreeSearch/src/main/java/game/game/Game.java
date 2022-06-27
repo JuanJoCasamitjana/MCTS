@@ -5,15 +5,19 @@ import java.util.Collections;
 import java.util.List;
 
 import game.IA.UCT;
+import game.IA.UCT2;
 import game.board.Board;
 import game.board.Piece;
 import game.board.PlayerColor;
 import game.initialise.BoardLoader;
 import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 
 
 
-@Data
+@Getter
+@Setter
 public class Game {
 
     //Attributes
@@ -34,6 +38,10 @@ public class Game {
     public static Game of(Board board, Integer turn, Integer movesPlayed, Integer movesLimit){
         return new Game(board, turn, movesPlayed, movesLimit);
     }
+
+	public static Game copy(Game game) {
+		return new Game(game.board, game.turn, game.movesPlayed, game.movesLimit);
+	}
 
 
     //Methods
@@ -85,6 +93,8 @@ public class Game {
 
     public Game applyMovement(Move move) throws Exception{
 
+
+
         if(!this.getMoves().contains(move)){
             throw new Exception("Movimiento ilegal.");
         }
@@ -103,7 +113,7 @@ public class Game {
         nextBoard.getBoardDisplay()[nextRow][nextColum] = pieceMoving;
 
         Board nextBoardChecked = Board.checkPiecesTaken(nextBoard);
-
+        
         
         return Game.of(nextBoardChecked, this.getTurn() == 1 ? 2 : 1, this.getMovesPlayed()+1, this.getMovesLimit());
     }
@@ -131,7 +141,7 @@ public static void main(String[] args) throws Exception {
     Game game = Game.getInitialState(1, Integer.MAX_VALUE);
 
     while(true){
-        Move move = UCT.buscaSolucion(game, 2);
+        Move move = UCT2.buscaSolucion(game, 2);
         System.out.println(move);
         game = game.applyMovement(move);
         game.printState();
