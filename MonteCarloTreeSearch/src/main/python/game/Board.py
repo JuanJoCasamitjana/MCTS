@@ -150,6 +150,8 @@ class Board:
 
     def get_player_available_moves(self):
         res = dict()
+        res[PlayerColor.BLACK] = []
+        res[PlayerColor.WHITE] = []
         rows = self.get_num_of_rows()
         columns = self.get_num_of_columns()
 

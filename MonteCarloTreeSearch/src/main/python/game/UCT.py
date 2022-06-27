@@ -75,14 +75,32 @@ class UCT:
             delta = -delta
             v = v.father
 
-
+whiteVictories = 0
+IAvictories = 0
+draws = 0
 game = Game.get_initial_state(1, 100)
 game.print_state()  
+for i in range(0,15):
+    game = Game.get_initial_state(1, 300)
+    game.print_state()  
+    while(not game.is_final_state()):
 
-while(not game.is_final_state()):
-    game = game.apply_move(UCT.look_for_solution(game, 5))
-    game.print_state()
-    if game.is_final_state():
-        break
-    game = game.apply_move(game.get_moves()[0])
-    game.print_state()
+        
+        game = game.apply_move(game.get_moves()[0])
+        game.print_state()
+        
+        if game.is_final_state():
+            break
+
+        game = game.apply_move(UCT.look_for_solution(game, 2))
+        game.print_state()
+
+        print("IA ", str(IAvictories), str(whiteVictories), " Negro. Tablas = ", str(draws))
+
+    if game.white_wins():
+        IAvictories += 1
+    elif game.black_wins():
+        whiteVictories += 1
+    else:
+        draws += 1
+print("IA ", str(IAvictories), str(whiteVictories), " Negro. Tablas = ", str(draws))
