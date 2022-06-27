@@ -10,5 +10,4 @@ class UCTNode:
         self.father = father
 
     def __str__(self):
-        #Node[isFinalState=%s, id=%s, n=%d, q=%d, i=%d, father=%s, children=%s, moves=%d]
         return "Node[isFinalState="+str(self.state.is_final_state())+", n="+str(self.n)+", q="+str(self.q)+ ", i="+str(self.i)+ ", children="+ str(len(self.children))+", moves="+str(len(self.moves))+"]"

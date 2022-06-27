@@ -9,16 +9,41 @@ class GameManager:
     def interfaz_usuario():
 
         print("¡Bienvenido a Hnefatafl!")
+        #opcion = GameManager.get
         variante = GameManager.get_variant()
-        tiempo = GameManager.get_max_time()
+        opcion = GameManager.get_option()   #0 = P vs IA.  1 = P vs P  2 = IA vs IA
+        if opcion==0:
+            GameManager.pvsIA(variante)
+        elif opcion==1:
+            GameManager.pvsp(variante)
+        elif opcion==2:
+            GameManager.IAvsIA(variante)
+
+    def IAvsIA(variante):
         moveLimit = GameManager.get_max_moves()
-        turn = GameManager.get_color()
         game = Game(BoardLoader.load_board(variante), 1, 0, moveLimit)
+        print("IA negra:")
+        tiempo1 = GameManager.get_max_time()
+        print("IA Blanca")
+        tiempo2 = GameManager.get_max_time()
 
-        if turn == 2:
-            game = game.apply_move(UCT.look_for_solution(game, tiempo))
+        while(not game.is_final_state()):
+            game.print_state()
+            game = game.apply_move(UCT.look_for_solution(game, tiempo1))
+            if game.is_final_state():
+                break
+            game.print_state()
+            game = game.apply_move(UCT.look_for_solution(game, tiempo2))
+        
         game.print_state()
+        
 
+
+
+    def pvsp(variante):
+        moveLimit = GameManager.get_max_moves()
+        game = Game(BoardLoader.load_board(variante), 1, 0, moveLimit)
+        game.print_state()
         while(not game.is_final_state()):
             moveStrOk = False
             while not moveStrOk:
@@ -35,14 +60,53 @@ class GameManager:
             game.print_state()
             if game.is_final_state():
                 break
+            moveStrOk = False
+            while not moveStrOk:
+                moveStr = input("Introduzca su movimiento: ")
+                try:
+                    move = Move(int(moveStr[0]),int(moveStr[1]),int(moveStr[2]),int(moveStr[3]))
+                    if move in game.get_moves():
+                        moveStrOk = True
+                        game = game.apply_move(move)
+                    else:
+                        print("Movimiento ilegal")
+                except:
+                    print("No fue capaz procesar este movimiento")
+            game.print_state()
+
+    def pvsIA(variante):
+        tiempo = GameManager.get_max_time()
+        moveLimit = GameManager.get_max_moves()
+        turn = GameManager.get_color()
+        game = Game(BoardLoader.load_board(variante), 1, 0, moveLimit)
+
+        if turn == 2:
+            game = game.apply_move(UCT.look_for_solution(game, tiempo))
+        game.print_state()
+
+        while(not game.is_final_state()):
+            moveStrOk = False
+            while not moveStrOk:
+                moveStr = input("Introduzca su movimiento o '?' para una pista: ")
+                if moveStr == "?":
+                    print("La IA recomienda " + str(UCT.look_for_solution(game,tiempo)))
+                    continue
+                try:
+                    move = Move(int(moveStr[0]),int(moveStr[1]),int(moveStr[2]),int(moveStr[3]))
+                    if move in game.get_moves():
+                        moveStrOk = True
+                        game = game.apply_move(move)
+                    else:
+                        print("Movimiento ilegal")
+                except:
+                    print("No fue capaz procesar este movimiento")
+            game.print_state()
+            if game.is_final_state():
+                break
             moveSelected = UCT.look_for_solution(game, tiempo)
             game = game.apply_move(moveSelected)
             print("La IA juega ", str(moveSelected), "\n")
             game.print_state()
-
-        
-        
-
 
     def get_variant():
         variante = 0
@@ -94,6 +158,20 @@ class GameManager:
             except:
                 pass
         return turn
+
+    def get_option():
+        opcion = -1
+        while opcion!=0 and opcion!=1 and opcion!=2:
+            print("¿Quienes van a jugar?")
+            print("        0. Jugador vs IA\r\n"
+                + "        1. Jugador vs Jugador\r\n"
+                + "        2. IA vs IA\r\n")
+            try:
+                opcion = int(input())
+            except:
+                opcion = -1
+        return opcion
+
 
 
 

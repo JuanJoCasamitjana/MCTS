@@ -275,19 +275,3 @@ class Board:
                 if(middlePiece == Piece.WHITE_KING and Coordinate(i,j) != nextBoard.get_throne() and not nextBoard.is_surroundings_of_throne(Coordinate(i,j)) and Board.is_black(topPiece) and Board.is_black(bottomPiece)):
                     nextBoardChecked.boardDisplay[i][j] = Piece.EMPTY
         return nextBoardChecked
-                    
-    
-'''
-integerDisplay = [[0,3,0,1,0],[0,2,2,0,1],[1,0,2,1,2],[2,0,0,0,0],[0,0,1,0,0]]
-board = Board.integer_display_to_board(integerDisplay)
-
-
-board.print_board()
-
-moves = board.get_player_available_moves()[PlayerColor.WHITE]
-for move in moves:
-    print(move)
-board2 = Board.check_pieces_taken(board)
-board.print_board()
-board2.print_board()
-'''
