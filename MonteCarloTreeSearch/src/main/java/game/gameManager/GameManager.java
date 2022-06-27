@@ -9,6 +9,7 @@ import java.util.function.Predicate;
 import game.IA.UCT;
 import game.game.Game;
 import game.game.Move;
+import game.uctAlgorithm.UpperConfidenceTree;
 import game.utils.Constants;
 import lombok.Getter;
 import lombok.Setter;
@@ -35,7 +36,7 @@ public class GameManager {
 	public static GameManager initialise() {
 		Predicate<Integer> maxMoves = e-> e<=0&&(e!=-1);
 		Predicate<Integer> boardIndexes = e->(e<1)||(e>6);
-		Predicate<Integer> playerSelection = e->e!=1||e!=2;
+		Predicate<Integer> playerSelection = e->e!=1&&e!=2;
 		Integer max = getInputAsInteger(Constants.MESSAGE_INPUT_MAX_MOVES, Constants.ERROR_INPUT_MESSAGE,maxMoves);
 		Integer board = getInputAsInteger(Constants.MESSAGE_INPUT_BOARD_INDEXES, Constants.ERROR_INPUT_MESSAGE,boardIndexes);
 		Integer player = getInputAsInteger(Constants.MESSAGE_INPUT_SELECT_PLAYER, Constants.ERROR_INPUT_MESSAGE, playerSelection);
@@ -82,6 +83,7 @@ public class GameManager {
 		for(int i=0;i<moves.size();++i) {
 			str = i + ". " + moves.get(i).toString()+"\n";
 		}
+		System.out.println(str);
 		return str;
 	}
 	public void play() throws Exception {
@@ -122,7 +124,7 @@ public class GameManager {
 	}
 	public void AIHandler() {
 		try {
-			Move move = UCT.buscaSolucion(this.gameState, 20000);
+			Move move = UpperConfidenceTree.busca_solucion(gameState, 10000);
 			System.out.println("The AI has selected the following move: "+ move);
 			this.gameState.applyMovement(move);
 		} catch (Exception e) {
